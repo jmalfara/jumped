@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">jumped</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title">Jumped</string>
+    <string name="play">Play</string>
+    <string name="ability1">One</string>
+    <string name="ability2">two</string>
+    <string name="basic">attack</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_game">Game</string>
+</resources>

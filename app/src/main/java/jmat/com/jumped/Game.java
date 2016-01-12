@@ -1,18 +1,28 @@
 package jmat.com.jumped;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import jmat.com.jumped.Assets.Background;
+import jmat.com.jumped.Unit.Player;
+
 public class Game extends Activity {
+
+    GamePanel gamePanel;
+    Player player;
+    int viewHeight = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +32,46 @@ public class Game extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
+        gamePanel = (GamePanel)findViewById(R.id.gamePanel);
         setListeners();
+        TreeObserver();
+    }
+
+    private void TreeObserver () {
+        ViewTreeObserver viewTreeObserver = gamePanel.getViewTreeObserver();
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                @Override
+                public void onGlobalLayout() {
+                    gamePanel.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int width = gamePanel.getWidth();
+                    viewHeight = gamePanel.getHeight();
+                    createPlayer();
+                    setBackground();
+                }
+            });
+        }
+    }
+
+    private void createPlayer() {
+        Bitmap bp = BitmapFactory.decodeResource(getResources(), R.drawable.spritesheets);
+        player = new Player(30,10,(new Point(50,viewHeight - bp.getHeight())),bp,11,2);
+        gamePanel.setPlayer(player);
+    }
+
+    private void setBackground() {
+        Bitmap bp = BitmapFactory.decodeResource(getResources(), R.drawable.spritesheets);
+        Background bg = new Background(bp);
+        gamePanel.setBackground(bg);
     }
 
     public void setListeners () {
-        Button leftButton = (Button)findViewById(R.id.left);
+        final Button leftButton = (Button)findViewById(R.id.left);
         leftButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d ("Left", "Touched");
+                gamePanel.requestPlayerLeft();
                 return true;
             }
         });
@@ -39,7 +80,7 @@ public class Game extends Activity {
         rightButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d ("Right", "Touched");
+                gamePanel.requestPlayerRight();
                 return true;
             }
         });
@@ -67,27 +108,5 @@ public class Game extends Activity {
                 Log.d("Ability 2", "Clicked");
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_game, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

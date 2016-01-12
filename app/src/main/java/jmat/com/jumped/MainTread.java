@@ -4,13 +4,11 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-/**
- * Created by Jordan on 1/10/2016.
- */
+
 public class MainTread extends Thread {
-    private int FPS = 30;
+    private int FPS = 25;
     private double avergaeFPS;
-    private SurfaceHolder surfaceHolder;
+    private final SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
     private boolean running;
     public static Canvas canvas;
@@ -46,6 +44,7 @@ public class MainTread extends Thread {
                     this.gamePanel.draw(canvas);
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 Log.e("Locking", "Error Locking Canvas");
             } finally {
                 if (canvas != null) {
@@ -59,11 +58,10 @@ public class MainTread extends Thread {
             // How long it took to update and draw 1 frame in nano seconds
             timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime - timeMillis;
-            System.out.println("Wait time is " + waitTime);
 
             try {
                 if (waitTime >= 0) {
-                    this.sleep(waitTime);
+                    sleep(waitTime);
                 } else {
                     Log.d("Dropped", "Frame Dropped, Catching Up");
                 }

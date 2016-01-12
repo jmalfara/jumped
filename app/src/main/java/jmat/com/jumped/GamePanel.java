@@ -1,30 +1,24 @@
 package jmat.com.jumped;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
+import android.graphics.Canvas;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-/**
- * Created by Jordan on 1/10/2016.
- */
+import jmat.com.jumped.Assets.Background;
+import jmat.com.jumped.Unit.Player;
+
+
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     private MainTread thread;
-
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public GamePanel(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-
-        //SurfaceHolder will intercept events
-        getHolder().addCallback(this);
-        thread = new MainTread(getHolder(), this);
-    }
+    private Player player;
+    private Background background;
+    private boolean stepLeft = false;
+    private boolean stepRight = false;
 
     public GamePanel(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -50,7 +44,45 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         thread = new MainTread(getHolder(), this);
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setBackground(Background background) {
+        this.background = background;
+    }
+
+    public void requestPlayerLeft() {
+        if (!stepLeft)
+            stepLeft = true;
+    }
+
+    public void requestPlayerRight() {
+        if (!stepRight)
+            stepRight = true;
+    }
+
+
     public void update(){
+      // background.update();
+        if (stepLeft) {
+            player.stepRight();
+            stepLeft = false;
+        }
+
+        if (stepRight) {
+            player.stepLeft();
+            stepRight = false;
+        }
+
+        player.update();
+    }
+
+    @Override
+    public void draw(@NonNull Canvas canvas) {
+        super.draw(canvas);
+        //background.draw(canvas);
+        player.draw(canvas);
     }
 
     @Override
@@ -80,7 +112,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
         return super.onTouchEvent(event);
     }
 }

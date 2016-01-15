@@ -4,7 +4,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.animation.Animation;
 
 
-public class Weapon {
+public  abstract class Weapon {
     private int damagePerHit;
     private BitmapDrawable skin;
     private Animation attackAnim;
@@ -23,4 +23,5 @@ public class Weapon {
     public int getRange() {
         return range;
     }
+    public abstract void attack();
 }

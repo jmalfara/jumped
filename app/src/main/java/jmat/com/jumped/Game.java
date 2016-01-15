@@ -24,13 +24,18 @@ public class Game extends Activity {
     Player player;
     int viewHeight = 0;
 
-    @Override
+    @Override //IS entry point to the program
     protected void onCreate(Bundle savedInstanceState) {
+        //Initialize with super
         super.onCreate(savedInstanceState);
 
+        //Gets rid of the title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //Makes the window fullscreen the flags are like options it will append these options
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //Can set this to whatever Surface view or content that you want.
         setContentView(R.layout.activity_game);
         gamePanel = (GamePanel)findViewById(R.id.gamePanel);
         setListeners();
@@ -85,11 +90,11 @@ public class Game extends Activity {
             }
         });
 
-        Button basicButton = (Button)findViewById(R.id.basic);
+        Button basicButton = (Button)findViewById(R.id.fire);
         basicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Basic", "Clicked");
+
             }
         });
 

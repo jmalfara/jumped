@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:id="@+id/gamePanel"
         android:layout_height="20dp"
-        android:layout_weight="0.94" />
+        android:layout_weight="0.95" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,22 +22,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:text="@string/ability1"
-                android:id="@+id/ability1"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/ability2"/>
 
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:text="@string/ability2"
-                android:id="@+id/ability2"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -69,10 +54,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:text="@string/basic"
-                android:id="@+id/basic"
+                android:id="@+id/fire"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="@string/ability1"
+                android:id="@+id/ability1"
+                android:layout_alignBottom="@+id/fire"
+                android:layout_toLeftOf="@+id/ability2"
+                android:layout_toStartOf="@+id/ability2" />
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="@string/ability2"
+                android:id="@+id/ability2"
+                android:layout_marginRight="84dp"
+                android:layout_marginEnd="84dp"
+                android:layout_alignBottom="@+id/fire"
+                android:layout_toLeftOf="@+id/fire"
+                android:layout_toStartOf="@+id/fire" />
         </RelativeLayout>
     </LinearLayout>
 

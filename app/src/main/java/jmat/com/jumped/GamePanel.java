@@ -62,16 +62,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             stepRight = true;
     }
 
-
+    //This is where the logic is handled for the game
     public void update(){
       // background.update();
         if (stepLeft) {
-            player.stepRight();
+            player.stepLeft();
             stepLeft = false;
         }
 
         if (stepRight) {
-            player.stepLeft();
+            player.stepRight();
             stepRight = false;
         }
 

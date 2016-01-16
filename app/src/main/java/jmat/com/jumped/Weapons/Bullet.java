@@ -6,7 +6,9 @@ import android.graphics.Point;
 
 
 /**
- * Created by Patrick on 1/14/2016.
+ * Created by Patrick Kochan on 1/14/2016.
+ *
+ * Bullet si the projectile that comes out of the gun and damages the enemy
  */
 public class Bullet {
 
@@ -19,13 +21,14 @@ public class Bullet {
     Bullet (Point location, Bitmap image, int deathTick) {
         this.location = location;
         this.image = image;
+        this.deathTick = deathTick;
     }
 
     public void move() {
         if (!facingRight) {
             location.x = -1 * speed;
         } else {
-            location.y = 1;
+            location.y = speed;
         }
 
     }
@@ -36,6 +39,19 @@ public class Bullet {
 
     public void draw(Canvas canvas) {
         canvas.drawBitmap(image, location.x, location.y, null);
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+    public Bitmap getImage() {
+        return image;
+    }
+    public int getSpeed() {
+        return speed;
+    }
+    public int getDeathTick() {
+        return deathTick;
     }
 
 

@@ -17,8 +17,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private MainTread thread;
     private Player player;
     private Background background;
-    private boolean stepLeft = false;
     private boolean stepRight = false;
+    private boolean stopSprite = true;
 
     public GamePanel(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -53,29 +53,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public void requestPlayerLeft() {
-        if (!stepLeft)
-            stepLeft = true;
+        stepRight = false;
+        stopSprite = false;
     }
 
     public void requestPlayerRight() {
-        if (!stepRight)
-            stepRight = true;
+        stepRight = true;
+        stopSprite = false;
+    }
+
+    public void stopSprite() {
+        stopSprite = true;
     }
 
     //This is where the logic is handled for the game
     public void update(){
       // background.update();
-        if (stepLeft) {
-            player.stepLeft();
-            stepLeft = false;
-        }
-
-        if (stepRight) {
-            player.stepRight();
-            stepRight = false;
-        }
-
-        player.update();
+        player.update(stepRight, stopSprite);
+        // background.update();
     }
 
     @Override

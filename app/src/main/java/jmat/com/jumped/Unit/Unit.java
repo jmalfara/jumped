@@ -9,10 +9,6 @@ import jmat.com.jumped.Assets.Sprite;
 
 public class Unit {
 
-    interface onDrawnListener {
-        boolean onDrawComplete();
-    }
-
     private int currentHealth;
     private int maxHealth;
     private float movementSpeed;
@@ -20,15 +16,39 @@ public class Unit {
     private boolean dead;
     private boolean facingRight;
     private Sprite sprite;
+    private Sprite arms;
+    private int viewWidth;
+    private int viewHeight;
+    private int spriteWidth;
+    private int spriteHeight;
 
-    public Unit(int maxHealth, float movementSpeed, Point location, Bitmap spriteSheet, int spriteColumns, int spriteRows) {
+    public Unit(int maxHealth, float movementSpeed, Bitmap spriteSheet, int spriteColumns, int spriteRows) {
         this.maxHealth = maxHealth;
         this.movementSpeed = movementSpeed;
         sprite = new Sprite(spriteSheet, spriteColumns, spriteRows);
         currentHealth = maxHealth;
-        this.location = location;
         facingRight = true;
         dead = false;
+        sprite.updateSprite(facingRight);
+        setSpriteWidth(spriteSheet.getWidth());
+        setSpriteHeight(spriteSheet.getHeight());
+    }
+
+    public void setSpriteWidth(int spriteWidth){
+        this.spriteWidth = spriteWidth;
+    }
+
+    public void setSpriteHeight(int spriteHeight){
+        this.spriteHeight = spriteHeight;
+    }
+
+
+    public int getSpriteHeight() { return spriteHeight; }
+
+    public void viewDimensions(int viewWidth, int viewHeight) {
+        this.viewWidth = viewWidth;
+        this.viewHeight = viewHeight;
+        location = new Point(viewWidth / 2,viewHeight - sprite.getSprite().getHeight() / sprite.getNumberOfRows());
     }
 
     public Point getLocation() {
@@ -62,14 +82,20 @@ public class Unit {
     public void stepLeft(){
         /* Increment the sprite here */
         sprite.nextSprite();
-        location.x -= (int)movementSpeed;
+        location.x -= (int)(viewWidth * movementSpeed);
+        if (location.x < 0) {
+            location.x = 0;
+        }
         facingRight = false;
     }
 
     public void stepRight(){
         /* Increment the sprite here */
         sprite.nextSprite();
-        location.x += (int)movementSpeed;
+        location.x += (int)(viewWidth * movementSpeed);
+        if (location.x > viewWidth - spriteWidth) {
+            location.x = viewWidth - spriteWidth;
+        }
         facingRight = true;
     }
 
@@ -77,12 +103,21 @@ public class Unit {
         return facingRight;
     }
 
-    public void update() {
-        
+    public void update(boolean isRight, boolean isStopped) {
+        if (isStopped)
+            return;
+
+        if (!isRight)
+            stepLeft();
+
+        if (isRight)
+            stepRight();
+
+        sprite.updateSprite(facingRight);
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(sprite.getSprite(facingRight), location.x, location.y, null);
+        canvas.drawBitmap(sprite.getSprite(), location.x, location.y, null);
     }
 
 

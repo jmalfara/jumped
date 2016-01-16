@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +37,7 @@ public class Game extends Activity {
         //Can set this to whatever Surface view or content that you want.
         setContentView(R.layout.activity_game);
         gamePanel = (GamePanel)findViewById(R.id.gamePanel);
-        setListeners();
+        setListeners(); 
         TreeObserver();
     }
 
@@ -51,17 +50,22 @@ public class Game extends Activity {
                 public void onGlobalLayout() {
                     gamePanel.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     int width = gamePanel.getWidth();
-                    viewHeight = gamePanel.getHeight();
-                    createPlayer();
+                    int height = gamePanel.getHeight();
+                    createPlayer(width, height);
                     setBackground();
                 }
             });
         }
     }
 
-    private void createPlayer() {
-        Bitmap bp = BitmapFactory.decodeResource(getResources(), R.drawable.spritesheets);
-        player = new Player(30,10,(new Point(50,viewHeight - bp.getHeight())),bp,11,2);
+    private void createPlayer(int viewWidth, int viewHeight) {
+        Bitmap bp = BitmapFactory.decodeResource(getResources(), R.drawable.test_sprite);
+        Bitmap arms = BitmapFactory.decodeResource(getResources(),  R.drawable.spritesheets);
+        int columns = 1;
+        int rows = 1;
+        player = new Player(30,0.01f,bp,columns,rows);
+        player.viewDimensions(viewWidth, viewHeight);
+        player.applyArmsSprite(arms, 11, 2);
         gamePanel.setPlayer(player);
     }
 
@@ -76,7 +80,12 @@ public class Game extends Activity {
         leftButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gamePanel.requestPlayerLeft();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    gamePanel.requestPlayerLeft();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    System.out.println("Stop Left");
+                    gamePanel.stopSprite();
+                }
                 return true;
             }
         });
@@ -85,7 +94,12 @@ public class Game extends Activity {
         rightButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gamePanel.requestPlayerRight();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    gamePanel.requestPlayerRight();
+                } else if (event.getAction() ==  MotionEvent.ACTION_UP){
+                    System.out.println("Stop Right");
+                    gamePanel.stopSprite();
+                }
                 return true;
             }
         });

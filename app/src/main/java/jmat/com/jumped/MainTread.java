@@ -6,7 +6,7 @@ import android.view.SurfaceHolder;
 
 
 public class MainTread extends Thread {
-    private int FPS = 25;
+    private int FPS = 30;
     private double avergaeFPS;
     private final SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
@@ -55,6 +55,7 @@ public class MainTread extends Thread {
                     }
                 }
             }
+
             // How long it took to update and draw 1 frame in nano seconds
             timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime - timeMillis;

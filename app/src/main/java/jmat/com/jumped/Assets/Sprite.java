@@ -14,6 +14,14 @@ public class Sprite {
     private int height;
     private int width;
 
+    public static Bitmap MergeSprite(Sprite arms, Sprite body) {
+        Bitmap bmOverlay = Bitmap.createBitmap(arms.getSprite().getWidth(), body.getSprite().getHeight());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawBitmap(bmp1, new Matrix(), null);
+        canvas.drawBitmap(bmp2, 0, 0, null);
+        return bmOverlay;
+    }
+
     public Sprite(Bitmap spriteSheet, int spriteColumns, int spriteRows) {
         this.spriteSheet = spriteSheet;
         this.spriteColumns = spriteColumns;

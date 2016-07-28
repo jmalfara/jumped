@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/graphicscore/graphicscore.iml" filepath="$PROJECT_DIR$/graphicscore/graphicscore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/graphicscore/graphicslibrary.iml" filepath="$PROJECT_DIR$/graphicscore/graphicslibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/jumped.iml" filepath="$PROJECT_DIR$/jumped.iml" />
     </modules>
   </component>

@@ -1,13 +1,11 @@
-package jmat.com.jumped;
+package com.jmat.graphicslibrary;
 
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-
 public class MainTread extends Thread {
-    private int FPS = 30;
-    private double avergaeFPS;
+    private int FPS = 35;
     private final SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
     private boolean running;
@@ -73,10 +71,10 @@ public class MainTread extends Thread {
             totalTime += System.nanoTime() - startTime;
             frameCount++;
             if (frameCount == FPS) {
-                avergaeFPS = 1000/((totalTime/frameCount)/1000000);
+                //double avergaeFPS = 1000 / ((totalTime / frameCount) / 1000000);
                 frameCount = 0;
                 totalTime = 0;
-                System.out.println(avergaeFPS);
+                //System.out.println(avergaeFPS);
             }
         }
     }

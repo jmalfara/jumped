@@ -26,7 +26,7 @@ public class MainTread extends Thread {
         long startTime;
         long timeMillis;
         long waitTime;
-        long totalTime = 0;
+        //long totalTime = 0;
         int frameCount = 0;
         long targetTime = 1000/FPS;
 
@@ -68,12 +68,12 @@ public class MainTread extends Thread {
                 Log.e ("Wait Time", "Error waiting");
             }
 
-            totalTime += System.nanoTime() - startTime;
+            //totalTime += System.nanoTime() - startTime;
             frameCount++;
             if (frameCount == FPS) {
                 //double avergaeFPS = 1000 / ((totalTime / frameCount) / 1000000);
                 frameCount = 0;
-                totalTime = 0;
+                //totalTime = 0;
                 //System.out.println(avergaeFPS);
             }
         }

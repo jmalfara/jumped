@@ -57,7 +57,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             for (CanvasObject object : canvasObjects) {
                 object.update();
             }
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             // Catch and ignore if iterator is null
         }
     }
@@ -69,7 +69,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             for (CanvasObject object : canvasObjects) {
                 object.draw(canvas);
             }
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             // Catch and ignore if iterator is null
         }
     }

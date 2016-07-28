@@ -35,11 +35,6 @@ public abstract class CanvasObject {
             mCallback.onActionCall(this);
     }
 
-    public void onDestroy() {
-        if (mCallback != null)
-            mCallback.onDestroyCall(this);
-    }
-
     public void setCallback(Callback mCallback) { this.mCallback = mCallback; }
 
     public CanvasObject(Sprite spriteSheet, Point location, boolean collidable) {
@@ -91,7 +86,7 @@ public abstract class CanvasObject {
 
     public void setFlipped(boolean flipped) { this.flipped = flipped; }
 
-    public void destroy(int framesTillGone) {
+    public void onDestroy(int framesTillGone) {
         if (isGone)
             return;
 

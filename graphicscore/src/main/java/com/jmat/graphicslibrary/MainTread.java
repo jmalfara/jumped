@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class MainTread extends Thread {
-    private int FPS = 35;
+    private int FPS = 50;
     private final SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
     private boolean running;
@@ -27,7 +27,7 @@ public class MainTread extends Thread {
         long timeMillis;
         long waitTime;
         //long totalTime = 0;
-        int frameCount = 0;
+        //int frameCount = 0;
         long targetTime = 1000/FPS;
 
         while(running) {
@@ -69,13 +69,13 @@ public class MainTread extends Thread {
             }
 
             //totalTime += System.nanoTime() - startTime;
-            frameCount++;
-            if (frameCount == FPS) {
+           // frameCount++;
+            //if (frameCount == FPS) {
                 //double avergaeFPS = 1000 / ((totalTime / frameCount) / 1000000);
-                frameCount = 0;
+               // frameCount = 0;
                 //totalTime = 0;
                 //System.out.println(avergaeFPS);
-            }
+            //}
         }
     }
 }

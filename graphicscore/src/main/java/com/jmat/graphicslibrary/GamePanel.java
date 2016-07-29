@@ -4,25 +4,23 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     private MainTread thread;
-    private List<CanvasObject> canvasObjects, bufferedObjects;
+    private LinkedList<CanvasObject> canvasObjects, addBuffer, removeBuffer;
 
     public GamePanel(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         //SurfaceHolder will intercept events
         getHolder().addCallback(this);
         canvasObjects = new LinkedList<>();
-        bufferedObjects = new LinkedList<>();
+        addBuffer = new LinkedList<>();
+        removeBuffer = new LinkedList<>();
     }
 
     public GamePanel(Context context, AttributeSet attrs) {
@@ -30,7 +28,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         //SurfaceHolder will intercept events
         getHolder().addCallback(this);
         canvasObjects = new LinkedList<>();
-        bufferedObjects = new LinkedList<>();
+        addBuffer = new LinkedList<>();
+        removeBuffer = new LinkedList<>();
     }
 
     public GamePanel(Context context) {
@@ -38,39 +37,48 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         //SurfaceHolder will intercept events
         getHolder().addCallback(this);
         canvasObjects = new LinkedList<>();
-        bufferedObjects = new LinkedList<>();
+        addBuffer = new LinkedList<>();
+        removeBuffer = new LinkedList<>();
     }
 
+    /**
+     *  Adds to the add buffer. So that CanvasObject can be added to the screen
+     *  @param canvasObject CanvasObject
+     */
     public void add (CanvasObject canvasObject) {
-        bufferedObjects.add(canvasObject);
+        addBuffer.add(canvasObject);
     }
 
+    /**
+     * Adds to the remove buffer. So that CanvasObject can be removed from screen
+     * @param canvasObject CanvasObject
+     */
     public void remove(CanvasObject canvasObject) {
-        canvasObjects.remove(canvasObject);
+        removeBuffer.add(canvasObject);
     }
 
-    //This is where the logic is handled for the game
+    /**
+     * Update function used by MainThread
+     */
     public void update(){
-        canvasObjects.addAll(bufferedObjects);
-        bufferedObjects.clear();
-        try {
-            for (CanvasObject object : canvasObjects) {
-                object.update();
-            }
-        } catch (NullPointerException e) {
-            // Catch and ignore if iterator is null
+        // Add Objects
+        canvasObjects.addAll(addBuffer);
+        addBuffer.clear();
+
+        // Remove Objects
+        canvasObjects.removeAll(removeBuffer);
+        removeBuffer.clear();
+
+        for (CanvasObject object : canvasObjects) {
+            object.update();
         }
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
-        try {
-            for (CanvasObject object : canvasObjects) {
-                object.draw(canvas);
-            }
-        } catch (NullPointerException e) {
-            // Catch and ignore if iterator is null
+        for (CanvasObject object : canvasObjects) {
+            object.draw(canvas);
         }
     }
 

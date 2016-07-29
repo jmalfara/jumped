@@ -1,7 +1,6 @@
 package jmat.com.jumped;
 
 import android.graphics.Point;
-
 import com.jmat.graphicslibrary.CanvasObject;
 import com.jmat.graphicslibrary.Sprite;
 
@@ -18,8 +17,8 @@ public class TestObject extends CanvasObject {
     public void update() {
         super.update();
         getLocation().x += 10;
-        if (getLocation().x > 3000) {
-            onDestroy(100);
+        if (getLocation().x > 1600) {
+            onDestroy(0);
         }
     }
 }

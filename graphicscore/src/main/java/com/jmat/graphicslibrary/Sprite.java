@@ -19,6 +19,12 @@ public class Sprite {
     private int xCut;
     private int yCut;
 
+    /**
+     * Constructor for Sprite
+     * @param spriteSheet Bitmap
+     * @param spriteColumns int
+     * @param spriteRows int
+     */
     public Sprite(Bitmap spriteSheet, int spriteColumns, int spriteRows) {
         this.spriteSheet = spriteSheet;
         this.spriteColumns = spriteColumns;
@@ -29,28 +35,32 @@ public class Sprite {
         yCut = height/spriteRows;
         row = 0;
         column = 0;
-        updateSprite(false);
+
+        /* Initialize First Sprite */
+        sprite = Bitmap.createBitmap(spriteSheet,
+                column * xCut,
+                row  * yCut,
+                xCut,
+                yCut);
     }
 
     /**
      * Function returns the sprite as a bitmap
      * @return Bitmap
      */
-    public Bitmap getSprite() {
+    public Bitmap getCurrentSprite() {
         return sprite;
     }
 
     /**
-     * Returns the number of rows in the spriteSheet
-     * @return int
-     */
-    public int getNumberOfRows () { return spriteRows; }
-
-    /**
-     * Function used to update the sprite object.
+     * Function used to update the sprite object. If spriteSheet is larger than 1x1 get the next
+     * sprite
      * @param flipped isFlipped
      */
     public void updateSprite (boolean flipped){
+        if (spriteRows == 1 && spriteColumns == 1)
+            return;
+
         nextSprite();
         int startX = column * xCut;
         int startY = row  * yCut;
@@ -70,7 +80,7 @@ public class Sprite {
     /**
      * Function used to increment the sprite to the next image
      */
-    public void nextSprite() {
+    private void nextSprite() {
         column++;
         if (column >= spriteColumns) {
             column = 0;

@@ -18,8 +18,7 @@ public class Background extends CanvasObject {
 
     @Override
     public void update() {
-        /* don't call super. Because we don't want to update every cycle */
-        //super.update();
+        super.update();
         getLocation().x -= 5;
         x2-= 5;
         if (getLocation().x <= imageWidth*(-1)) {
@@ -34,7 +33,7 @@ public class Background extends CanvasObject {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        canvas.drawBitmap(getSprite(), x2, getLocation().y, null);
+        canvas.drawBitmap(getSprite().getCurrentSprite(), x2, getLocation().y, null);
     }
 }
 

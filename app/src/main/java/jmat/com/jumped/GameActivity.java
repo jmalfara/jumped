@@ -73,25 +73,28 @@ public class GameActivity extends Activity {
             }
         });
 
+        final Sprite sprite = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.test_sprite),1,1);
+
+        final TestObject testObject = new TestObject(sprite,new Point(0,0),true);
+        testObject.setCallback(new CanvasObject.Callback() {
+            @Override
+            public void onActionCall(CanvasObject canvasObject) {
+
+            }
+
+            @Override
+            public void onDestroyCall(CanvasObject canvasObject) {
+                Log.d("REMOVED", "Call to Remove");
+                gamePanel.remove(canvasObject);
+            }
+        });
+
         Button basicButton = (Button)findViewById(R.id.fire);
         basicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Sprite sprite = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.test_sprite),1,1);
-                TestObject testObject = new TestObject(sprite,new Point(0,0),true);
-                testObject.setCallback(new CanvasObject.Callback() {
-                    @Override
-                    public void onActionCall(CanvasObject canvasObject) {
-
-                    }
-
-                    @Override
-                    public void onDestroyCall(CanvasObject canvasObject) {
-                        Log.d("REMOVED", "Call to Remove");
-                        gamePanel.remove(canvasObject);
-                    }
-                });
-                gamePanel.add(testObject);
+                /* Adding CanvasObject by cloning is much more efficient than creation */
+                gamePanel.add(testObject.cloneObject(new Point(0,0)));
                 Log.d("Fire", "Action");
             }
         });
